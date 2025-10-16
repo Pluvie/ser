@@ -27,26 +27,25 @@ to which this library is built upon, for its native support for reflection.
 
 Below some benchmarks on JSON parsing. The code is based on [kostya](
 https://github.com/kostya/benchmarks?tab=readme-ov-file#json) benchmarks. We utilized
-the exact same JSON as source, but modified the code a little bit to add some
-extra verifications.
+the exact same JSON as source and the same benchmarking mechanism.
 
 Results by execution speed:
 
-| Name                    | Speed     |
-|-------------------------|-----------|
-| C++     simdjson        | 303 ms    |
-| **C     🗡️SER🛡️**       | 395 ms    |
-| Rust    serde           | 454 ms    |
-| Go      encoding/json   | 2470 ms   |
-| Python  json            | 3674 ms   |
-| Ruby    JSON            | 5262 ms   |
+| Name                    | Speed         |
+|-------------------------|---------------|
+| C++     simdjson        | 303 ms        |
+| **C     🗡️SER🛡️**       | **395 ms**    |
+| Rust    serde           | 454 ms        |
+| Go      encoding/json   | 2470 ms       |
+| Python  json            | 3674 ms       |
+| Ruby    JSON            | 5262 ms       |
 
 Results by memory consumption:
 
 | Name                    | Memory    |
 |-------------------------|-----------|
 | Rust    serde           | 13 MB     |
-| **C     🗡️SER🛡️**       | 25 MB     |
+| **C     🗡️SER🛡️**       | **25 MB** |
 | C++     simdjson        | 63 MB     |
 | Go      encoding/json   | 69 MB     |
 | Ruby    JSON            | 255 MB    |

@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	//"fmt"
 	"os"
 )
 
@@ -43,6 +44,7 @@ func run() error {
 	}
 
 	result = data.Average()
+	//fmt.Printf("%+v\n", result);
 	err = verify(result)
 	if err != nil {
 		return err

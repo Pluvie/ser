@@ -60,6 +60,30 @@ if [[ $1 == "spec" ]]; then
 elif [[ $1 == "perf" ]]; then
   FILES="app/perf/main.c app/perf/containers.c"
 
+  if [[ $2 == "debug" ]]; then
+    gcc $FILES                    \
+      -no-integrated-cpp -B ./bin \
+      $DEFAULT_FLAGS              \
+      -D PLATFORM=$PLATFORM       \
+      -I ./src                    \
+      -I ./lib                    \
+      -g3 -o exe/perf
+
+    if [ $? -ne 0 ]; then
+      exit 1
+    fi
+
+    valgrind                    \
+      --track-origins=yes       \
+      --leak-check=full         \
+      --show-leak-kinds=all     \
+      exe/perf
+    echo
+
+    exit $?
+  fi
+
+
   gcc $FILES                    \
     -no-integrated-cpp -B ./bin \
     $DEFAULT_FLAGS              \
@@ -77,7 +101,7 @@ elif [[ $1 == "perf" ]]; then
     exe/perf
 
   else
-    echo "Usage: bin/ser perf run"
+    echo "Usage: bin/ser perf [debug|run]"
     exit 1
   fi
 

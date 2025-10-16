@@ -5,16 +5,9 @@
 #define list_of struct perf_run
 #include <ion/containers/list.h>
 
-/*
-  Sets.
-*/
-
-#define set_of str
-#include <ion/containers/set.h>
-
-/*
-  Maps.
-*/
-
-#define map_of str, struct perf
-#include <ion/containers/map.h>
+#if standard(>= C11)
+#define list_function(type, func, ...)                        \
+  _Generic(type,                                              \
+    list<struct perf_run>  : list<struct perf_run>_ ## func   \
+  )
+#endif

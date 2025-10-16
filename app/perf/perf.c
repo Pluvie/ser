@@ -1,10 +1,92 @@
 #include <ser.c>
 
 struct perf json_perfs[] = {
-  { string("simdjson (C/C++)"), string("json/exe/simdjson"),  50 },
-  { string("serde (Rust)"),     string("json/exe/rust"),      30 },
-  { string("json (Go)"),        string("json/exe/go"),        10 },
-  { string("ion (C)"),          string("json/exe/ion"),       50 },
-  { string("json (Ruby)"),      string("json/exe/ruby"),       5 },
-  { string("json (Python)"),    string("json/exe/python"),     5 },
+  { string("simdjson (C/C++)"), string("cd app/perf/json && cgmemtime -t exe/simdjson 2>&1"), 7 },
+  { string("serde (Rust)"),     string("cd app/perf/json && cgmemtime -t exe/rust     2>&1"), 7 },
+  { string("json (Go)"),        string("cd app/perf/json && cgmemtime -t exe/go       2>&1"), 7 },
+  { string("ion (C)"),          string("cd app/perf/json && cgmemtime -t exe/ion      2>&1"), 7 },
+  { string("json (Ruby)"),      string("cd app/perf/json && cgmemtime -t exe/ruby     2>&1"), 7 },
+  { string("json (Python)"),    string("cd app/perf/json && cgmemtime -t exe/python   2>&1"), 7 },
 };
+
+
+void perf_exec (
+    struct perf* perf
+)
+{
+  memory_set(perf, 0, sizeof(perf));
+
+  for (int i = 0; i < perf->max_runs; i++) {
+    struct perf_run run = perf_run_exec(perf);
+
+    if (run.status != 0) {
+      perf->status = run.status;
+      return;
+    }
+
+    list_push(&(perf->runs), run);
+  }
+
+  for list_each(&(perf->runs), struct perf_run* run) {
+    perf->average.time.user += run->time.user;
+    perf->average.time.sys += run->time.sys;
+    perf->average.time.total += run->time.total;
+    perf->average.memory.child += run->memory.child;
+    perf->average.memory.group += run->memory.group;
+  }
+
+  perf->average.time.user = perf->average.time.user / perf->runs.length;
+  perf->average.time.sys = perf->average.time.sys / perf->runs.length;
+  perf->average.time.total = perf->average.time.total / perf->runs.length;
+  perf->average.memory.child = perf->average.memory.child / perf->runs.length;
+  perf->average.memory.group = perf->average.memory.group / perf->runs.length;
+}
+
+struct perf_run perf_run_exec (
+    struct perf* perf
+)
+{
+  struct perf_run result = { 0 };
+
+  void* channel = popen(perf->command.chars, "r");
+  if (channel == nullptr) {
+    fail("cannot open channel", strerror(errno));
+    result.status = 127;
+    return result;
+  }
+
+  char output_buffer[1024] = { 0 };
+  while (fgets(output_buffer, sizeof(output_buffer), channel) != nullptr);
+
+  str output = { output_buffer, strlen(output_buffer) };
+  for (int i = 0; i < 5; i++) {
+    dec value = str_to_dec(&output);
+    switch (i) {
+    case 0:
+      result.time.user = value;
+      break;
+    case 1:
+      result.time.sys = value;
+      break;
+    case 2:
+      result.time.total = value;
+      break;
+    case 3:
+      result.memory.child = (int) value;
+      break;
+    case 4:
+      result.memory.group = (int) value;
+      break;
+    }
+
+    if (i == 4)
+      break;
+
+    while (*output.chars != ';')
+      output.chars++;
+    output.chars++;
+  }
+
+  result.status = pclose(channel);
+  return result;
+}

@@ -32,3 +32,13 @@ void perf_exec (
 struct perf_run perf_run_exec (
     struct perf* perf
 );
+
+int0 perf_cmp_by_speed (
+    const void* p1,
+    const void* p2
+);
+
+int0 perf_cmp_by_memory (
+    const void* p1,
+    const void* p2
+);

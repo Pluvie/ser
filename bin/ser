@@ -57,6 +57,31 @@ if [[ $1 == "spec" ]]; then
     exit 1
   fi
 
+elif [[ $1 == "perf" ]]; then
+  FILES="app/perf/main.c app/perf/containers.c"
+
+  gcc $FILES                    \
+    -no-integrated-cpp -B ./bin \
+    $DEFAULT_FLAGS              \
+    -D PLATFORM=$PLATFORM       \
+    -I ./src                    \
+    -I ./lib                    \
+    -O3 -march=native           \
+    -o exe/perf
+
+  if [ $? -ne 0 ]; then
+    exit 1
+  fi
+
+  if [[ $2 == "run" ]]; then
+    exe/perf
+
+  else
+    echo "Usage: bin/ser perf run"
+    exit 1
+  fi
+
+
 elif [[ $1 == "lib" ]]; then
 
   gcc $ION/ser.c            \

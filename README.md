@@ -27,8 +27,8 @@ to which this library is built upon, for its native support for reflection.
 
 Below some benchmarks on JSON parsing. The code is based on [kostya](
 https://github.com/kostya/benchmarks?tab=readme-ov-file#json) benchmarks. We utilized
-the exact same JSON as source, but modified the code a little bit adding some
-verifications.
+the exact same JSON as source, but modified the code a little bit to add some
+extra verifications.
 
 Results by execution speed:
 
@@ -51,3 +51,14 @@ Results by memory consumption:
 | Go      encoding/json   | 69 MB     |
 | Ruby    JSON            | 255 MB    |
 | Python  json            | 336 MB    |
+
+Memory consumption is the actual memory overhead that the program uses to parse the
+JSON file, therefore deducing the ~110MB of raw file bytes.
+
+### CSV
+
+TODO
+
+### XML
+
+TODO

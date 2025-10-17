@@ -20,7 +20,7 @@ if [ $# -eq 0 ] || [[ $1 == "ion" ]]; then
     -std=c11 -Wall -Werror          \
     -D PLATFORM=LINUX               \
     -I ./src                        \
-    -I ./lib                        \
+    -I ./ion                        \
     -O3 -march=native               \
     -o app/perf/json/exe/ion
   cd - > /dev/null

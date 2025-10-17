@@ -49,7 +49,6 @@ Results by execution speed:
 | Rust    serde           | 228 ms      |
 | Go      encoding/json   | 1285 ms     |
 | Python  json            | 1881 ms     |
-| Ruby    JSON            | 2640 ms     |
 
 Results by memory consumption:
 
@@ -59,7 +58,6 @@ Results by memory consumption:
 | **C     Ser**           | **25 MB** |
 | C++     simdjson        | 63 MB     |
 | Go      encoding/json   | 69 MB     |
-| Ruby    JSON            | 255 MB    |
 | Python  json            | 336 MB    |
 
 Memory consumption is the actual memory overhead that the program uses to parse the

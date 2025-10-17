@@ -7,10 +7,8 @@
 
 **Ser** is a serialization library to convert to and from various data formats.
 
-It is designed to be a single header to be included directly in your source code. The
-main goals are efficiency and performance. The only dependency is the [⚡️ION⚡️](
-https://github.com/Pluvie/ion) system library, because of its native support for
-reflection.
+It is designed to be a single header to be included directly in your source code. Its
+main goals are efficiency and performance.
 
 ## Features
 
@@ -34,7 +32,10 @@ Haswell architecture.
 
 ### JSON
 
-We utilized the exact same process of [kostya JSON benchmarks](
+Every day, servers around the world are consuming terawatts of electricity to do one
+thing: parsing JSON data. Yep, that sounds weird, but it's the unfortunate truth. So,
+it makes sense that the first benchmark of **Ser** involves JSON parsing. To do this,
+we utilized the exact same process of [kostya JSON benchmarks](
 https://github.com/kostya/benchmarks?tab=readme-ov-file#json). Our results are
 consistent with theirs, so you can consider reliable the rankings of **Ser** as they
 emerge from the lists below.
@@ -95,7 +96,7 @@ This is to point out two things:
     everyone to write beautiful, maintainable and performant software. This is pretty
     much what the [⚡️ION⚡️](https://github.com/Pluvie/ion) system strives for.
   2. There is plenty of opportunity to improve the performance of **Ser** on the above
-    benchmarks, such as using SIMD instructions. However, tor the reason listed in the
+    benchmarks, such as using SIMD instructions. However, for the reason listed in the
     above point, we are more interested in keeping the code as it is, therefore we will
     not take this endeavour in the near future. Still, at some point we might release a
     performance focused version of **Ser** just for the sake of it.

@@ -78,6 +78,9 @@ Results by compilation speed:
 | C++     simdjson        | 6800 ms     |
 | Rust    serde           | 7350 ms     |
 
+> C++ and Rust compilation speed is not a typo: they are *extremely* slow in producing
+> an executable.
+
 In conclusion, we would like to point out another aspect of software development which
 is maintainability. This is of course by definition a non-scientific benchmark, as it
 involves subjective judgment on code quality and organization. However, we encourage
